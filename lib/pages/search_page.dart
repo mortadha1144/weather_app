@@ -18,8 +18,9 @@ class SearchPage extends StatelessWidget {
           child: TextField(
             onSubmitted: (value) {
               cityName = value;
-
-              print(WeatherService().getWeather(cityName: cityName!));
+              WeatherService service = WeatherService();
+              service.getWeather(cityName: cityName!);
+              
             },
             decoration: const InputDecoration(
                 contentPadding:
