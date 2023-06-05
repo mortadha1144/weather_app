@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:weather_app/models/weather_mode.dart';
+import 'package:weather_app/models/weather_model.dart';
 
 class WeatherService {
   final String baseUrl = 'http://api.weatherapi.com/v1';

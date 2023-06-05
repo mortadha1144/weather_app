@@ -22,4 +22,10 @@ class WeatherModel {
       weatherStateName: jsonDay['condition']['text'],
     );
   }
+
+  @override
+  String toString() {
+    
+    return 'temp = $temp minTemp = $minTemp date = $date';
+  }
 }
