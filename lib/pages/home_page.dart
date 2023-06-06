@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_app/models/weather_model.dart';
 import 'package:weather_app/pages/search_page.dart';
+import 'package:weather_app/prviders/weather_prvider.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
   WeatherModel? weatherData;
   @override
   Widget build(BuildContext context) {
+    weatherData = Provider.of<WeatherProvider>(context).weatherData;
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -22,7 +25,7 @@ class HomePage extends StatelessWidget {
         ],
         title: const Text('Weather App'),
       ),
-      body: weatherData != null
+      body: weatherData == null
           ? const Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -50,16 +53,16 @@ class HomePage extends StatelessWidget {
                   const Spacer(
                     flex: 3,
                   ),
-                  const Text(
-                    'Cairo',
-                    style: TextStyle(
+                  Text(
+                    Provider.of<WeatherProvider>(context).cityName!,
+                    style: const TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Text(
-                    'Updated: 12:11 PM',
-                    style: TextStyle(
+                  Text(
+                    'Updated : ${weatherData!.date}',
+                    style: const TextStyle(
                       fontSize: 22,
                     ),
                   ),
@@ -68,25 +71,25 @@ class HomePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Image.asset('assets/images/clear.png'),
-                      const Text(
-                        '30',
-                        style: TextStyle(
+                      Text(
+                        weatherData!.temp.toInt().toString(),
+                        style: const TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const Column(
+                      Column(
                         children: [
-                          Text('maxTemp: 30'),
-                          Text('minTemp: 30'),
+                          Text('maxTemp: ${weatherData!.maxTemp.toInt()}'),
+                          Text('minTemp: ${weatherData!.minTemp.toInt()}'),
                         ],
                       )
                     ],
                   ),
                   const Spacer(),
-                  const Text(
-                    'Clear',
-                    style: TextStyle(
+                  Text(
+                    weatherData!.weatherStateName,
+                    style: const TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
