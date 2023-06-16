@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/cubits/weather_cubit/weather_cubit.dart';
 import 'package:weather_app/models/weather_model.dart';
 import 'package:weather_app/pages/search_page.dart';
-import 'package:weather_app/prviders/weather_prvider.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
   WeatherModel? weatherData;
   @override
   Widget build(BuildContext context) {
-    weatherData = Provider.of<WeatherProvider>(context).weatherData;
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -25,27 +24,15 @@ class HomePage extends StatelessWidget {
         ],
         title: const Text('Weather App'),
       ),
-      body: weatherData == null
-          ? const Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'there is no weather 😔 start',
-                    style: TextStyle(
-                      fontSize: 30,
-                    ),
-                  ),
-                  Text(
-                    'searching now 🔍',
-                    style: TextStyle(
-                      fontSize: 30,
-                    ),
-                  )
-                ],
-              ),
-            )
-          : Container(
+      body: BlocBuilder<WeatherCubit, WeatherState>(
+        builder: (context, state) {
+          if (state is WeatherLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is WeatherSuccess) {
+            weatherData = BlocProvider.of<WeatherCubit>(context).weatherModel;
+            return Container(
               color: Colors.orange,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -54,7 +41,7 @@ class HomePage extends StatelessWidget {
                     flex: 3,
                   ),
                   Text(
-                    Provider.of<WeatherProvider>(context).cityName!,
+                    BlocProvider.of<WeatherCubit>(context).cityNameM!,
                     style: const TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
@@ -99,7 +86,33 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
+            );
+          } else if (state is WeatherFailure) {
+            return const Center(
+              child: Text('Something went wrong please try again'),
+            );
+          }
+          return const Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'there is no weather 😔 start',
+                  style: TextStyle(
+                    fontSize: 30,
+                  ),
+                ),
+                Text(
+                  'searching now 🔍',
+                  style: TextStyle(
+                    fontSize: 30,
+                  ),
+                )
+              ],
             ),
+          );
+        },
+      ),
     );
   }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_app/cubits/weather_cubit/weather_cubit.dart';
 import 'package:weather_app/pages/home_page.dart';
 import 'package:weather_app/prviders/weather_prvider.dart';
+import 'package:weather_app/services/wether_service.dart';
 
 void main() {
   runApp(const WeatherApp());
@@ -14,8 +17,8 @@ class WeatherApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => WeatherProvider(),
+    return BlocProvider(
+      create: (context) => WeatherCubit(WeatherService()),
       child:  MaterialApp(
         home: HomePage(),
       ),

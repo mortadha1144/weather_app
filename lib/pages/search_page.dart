@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:weather_app/models/weather_model.dart';
-import 'package:weather_app/prviders/weather_prvider.dart';
-import 'package:weather_app/services/wether_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/cubits/weather_cubit/weather_cubit.dart';
 
 class SearchPage extends StatelessWidget {
   SearchPage({super.key});
@@ -21,13 +19,8 @@ class SearchPage extends StatelessWidget {
           child: TextField(
             onSubmitted: (value) async {
               cityName = value;
-              WeatherService service = WeatherService();
-              WeatherModel weather =
-                  await service.getWeather(cityName: cityName!);
-              Provider.of<WeatherProvider>(context, listen: false).weatherData =
-                  weather;
-              Provider.of<WeatherProvider>(context, listen: false).cityName =
-                  cityName;
+              BlocProvider.of<WeatherCubit>(context)
+                  .getWeathe(cityName: cityName!);
 
               Navigator.pop(context);
             },
