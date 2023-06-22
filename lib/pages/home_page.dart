@@ -89,7 +89,9 @@ class HomePage extends StatelessWidget {
             );
           } else if (state is WeatherFailure) {
             return const Center(
-              child: Text('Something went wrong please try again'),
+              child: Text(
+                'Something went wrong please try again',
+              ),
             );
           }
           return const Center(
@@ -99,13 +101,13 @@ class HomePage extends StatelessWidget {
                 Text(
                   'there is no weather 😔 start',
                   style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 20,
                   ),
                 ),
                 Text(
                   'searching now 🔍',
                   style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 20,
                   ),
                 )
               ],
